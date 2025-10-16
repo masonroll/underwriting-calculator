@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - RE Underwriting Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-navy { background-color: #1e3a8a; }
+        .text-navy { color: #1e3a8a; }
+        .bg-navy-dark { background-color: #1e40af; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    RE Underwriting Pro
+                </h2>
+                <p class="mt-2 text-center text-sm text-gray-600">
+                    Sign in to access your deals
+                </p>
+            </div>
+            
+            <!-- Login Form -->
+            <div id="login-form" class="bg-white shadow-md rounded-lg p-8">
+                <form onsubmit="handleLogin(event)" class="space-y-6">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">
+                            Email address
+                        </label>
+                        <input id="email" name="email" type="email" required 
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-navy focus:border-navy">
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">
+                            Password
+                        </label>
+                        <input id="password" name="password" type="password" required 
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-navy focus:border-navy">
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember-me" name="remember-me" type="checkbox" 
+                                   class="h-4 w-4 text-navy focus:ring-navy border-gray-300 rounded">
+                            <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <div class="text-sm">
+                            <a href="#" onclick="showResetPassword()" class="font-medium text-navy hover:text-navy-dark">
+                                Forgot password?
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" 
+                                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-navy hover:bg-navy-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy">
+                            Sign in
+                        </button>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="button" onclick="showRegister()" 
+                                class="text-sm text-navy hover:text-navy-dark">
+                            Don't have an account? Sign up
+                        </button>
+                    </div>
+                </form>
+
+                <div id="error-message" class="hidden mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                </div>
+            </div>
+
+            <!-- Register Form (Hidden) -->
+            <div id="register-form" class="bg-white shadow-md rounded-lg p-8 hidden">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Create Account</h3>
+                <form onsubmit="handleRegister(event)" class="space-y-6">
+                    <div>
+                        <label for="reg-name" class="block text-sm font-medium text-gray-700">
+                            Full Name
+                        </label>
+                        <input id="reg-name" name="name" type="text" required 
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-navy focus:border-navy">
+                    </div>
+
+                    <div>
+                        <label for="reg-email" class="block text-sm font-medium text-gray-700">
+                            Email address
+                        </label>
+                        <input id="reg-email" name="email" type="email" required 
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-navy focus:border-navy">
+                    </div>
+
+                    <div>
+                        <label for="reg-password" class="block text-sm font-medium text-gray-700">
+                            Password
+                        </label>
+                        <input id="reg-password" name="password" type="password" required minlength="6"
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-navy focus:border-navy">
+                        <p class="mt-1 text-xs text-gray-500">Minimum 6 characters</p>
+                    </div>
+
+                    <div>
+                        <label for="reg-password-confirm" class="block text-sm font-medium text-gray-700">
+                            Confirm Password
+                        </label>
+                        <input id="reg-password-confirm" name="password-confirm" type="password" required 
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-navy focus:border-navy">
+                    </div>
+
+                    <div>
+                        <button type="submit" 
+                                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-navy hover:bg-navy-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy">
+                            Create Account
+                        </button>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="button" onclick="showLogin()" 
+                                class="text-sm text-navy hover:text-navy-dark">
+                            Already have an account? Sign in
+                        </button>
+                    </div>
+                </form>
+
+                <div id="register-error" class="hidden mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple authentication system
+        // In production, you would use Firebase, Auth0, or a backend API
+
+        function showError(message, formId = 'login-form') {
+            const errorDiv = formId === 'login-form' ? 
+                document.getElementById('error-message') : 
+                document.getElementById('register-error');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+            setTimeout(() => errorDiv.classList.add('hidden'), 5000);
+        }
+
+        function showRegister() {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('register-form').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('register-form').classList.add('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
+        }
+
+        function showResetPassword() {
+            alert('Password reset feature coming soon!\n\nFor now, please contact support or create a new account.');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Get stored users from localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Find user
+            const user = users.find(u => u.email === email);
+            
+            if (!user) {
+                showError('Email not found. Please sign up first.');
+                return;
+            }
+            
+            if (user.password !== password) {
+                showError('Invalid password. Please try again.');
+                return;
+            }
+            
+            // Store session
+            localStorage.setItem('currentUser', JSON.stringify({
+                id: user.id,
+                email: user.email,
+                name: user.name
+            }));
+            
+            // Redirect to dashboard
+            window.location.href = 'index.html';
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const passwordConfirm = document.getElementById('reg-password-confirm').value;
+            
+            // Validate passwords match
+            if (password !== passwordConfirm) {
+                showError('Passwords do not match!', 'register-form');
+                return;
+            }
+            
+            // Get existing users
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Check if email already exists
+            if (users.find(u => u.email === email)) {
+                showError('Email already registered. Please sign in.', 'register-form');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: Date.now().toString(),
+                name: name,
+                email: email,
+                password: password, // In production, this would be hashed!
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save user
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Auto-login
+            localStorage.setItem('currentUser', JSON.stringify({
+                id: newUser.id,
+                email: newUser.email,
+                name: newUser.name
+            }));
+            
+            // Show success and redirect
+            alert('Account created successfully!');
+            window.location.href = 'index.html';
+        }
+
+        // Check if already logged in
+        const currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            // User already logged in, redirect to dashboard
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
