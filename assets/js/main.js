@@ -10,6 +10,29 @@ let cashflowChart = null;
 let comparisonChart = null;
 let currentUser = null;
 
+// ============================================
+// IMMEDIATELY EXPOSE STUB FUNCTIONS TO WINDOW SCOPE
+// These will be replaced with actual implementations below
+// This ensures onclick handlers can find them immediately
+// ============================================
+window.showView = function(viewName) { console.log('showView stub called:', viewName); };
+window.handleLogout = function() { console.log('handleLogout stub called'); };
+window.fetchPropertyData = function() { console.log('fetchPropertyData stub called'); };
+window.calculateMetrics = function() { console.log('calculateMetrics stub called'); };
+window.calculateStorageMetrics = function() { console.log('calculateStorageMetrics stub called'); };
+window.exportToCSV = function() { console.log('exportToCSV stub called'); };
+window.exportToJSON = function() { console.log('exportToJSON stub called'); };
+window.printReport = function() { console.log('printReport stub called'); };
+window.importData = function() { console.log('importData stub called'); };
+window.handlePropertyTypeChange = function() { console.log('handlePropertyTypeChange stub called'); };
+window.updatePricePerSqft = function() { console.log('updatePricePerSqft stub called'); };
+window.updateLoanAmount = function() { console.log('updateLoanAmount stub called'); };
+window.updateStorageDealPricePerUnit = function() { console.log('updateStorageDealPricePerUnit stub called'); };
+window.updateStorageDealIncome = function() { console.log('updateStorageDealIncome stub called'); };
+window.editDeal = function() { console.log('editDeal stub called'); };
+window.deleteDeal = function() { console.log('deleteDeal stub called'); };
+window.viewDeal = function() { console.log('viewDeal stub called'); };
+
 // Initialize application
 document.addEventListener('DOMContentLoaded', function() {
     // Check authentication and load user
@@ -46,18 +69,19 @@ function initializeAuth() {
 /**
  * Handle user logout
  */
-function handleLogout() {
+window.handleLogout = function handleLogout() {
     if (confirm('Are you sure you want to logout?')) {
         localStorage.removeItem('currentUser');
         window.location.href = 'login.html';
     }
-}
+};
 
 // ============================================
 // VIEW MANAGEMENT
 // ============================================
 
-function showView(viewName) {
+// Replace the stub with actual implementation
+window.showView = function showView(viewName) {
     console.log('showView called with:', viewName);
     
     try {
@@ -103,10 +127,7 @@ function showView(viewName) {
     } catch (error) {
         console.error('Error in showView:', error);
     }
-}
-
-// Make sure critical functions are accessible globally from inline onclick handlers
-window.showView = showView;
+};
 
 // ============================================
 // LOCAL STORAGE MANAGEMENT (User-specific)
@@ -142,11 +163,11 @@ function saveDeal(dealData) {
     return deal;
 }
 
-function deleteDeal(dealId) {
+window.deleteDeal = function deleteDeal(dealId) {
     deals = deals.filter(d => d.id !== dealId);
     saveDeals();
     renderDashboard();
-}
+};
 
 // ============================================
 // DASHBOARD RENDERING
@@ -207,14 +228,14 @@ function renderDashboard() {
     `).join('');
 }
 
-function viewDeal(dealId) {
+window.viewDeal = function viewDeal(dealId) {
     const deal = deals.find(d => d.id === dealId);
     if (!deal) return;
     
     // Populate form with deal data
     currentDeal = deal;
     populateFormWithDeal(deal);
-    showView('add-deal');
+    window.showView('add-deal');
     
     // Show results if metrics exist
     if (deal.metrics) {
@@ -317,7 +338,7 @@ function setupFormHandlers() {
 // FINANCIAL CALCULATIONS
 // ============================================
 
-function calculateMetrics() {
+window.calculateMetrics = function calculateMetrics() {
     const formData = {
         purchasePrice: parseFloat(document.getElementById('purchase-price').value) || 0,
         rehabCosts: parseFloat(document.getElementById('rehab-costs').value) || 0,
@@ -680,7 +701,7 @@ function updateComparisonChart() {
 // EXPORT FUNCTIONS
 // ============================================
 
-function exportToCSV() {
+window.exportToCSV = function exportToCSV() {
     if (deals.length === 0) {
         alert('No deals to export');
         return;
@@ -716,7 +737,7 @@ function exportToCSV() {
     downloadFile(csvContent, 'underwriting_deals.csv', 'text/csv');
 }
 
-function exportToJSON() {
+window.exportToJSON = function exportToJSON() {
     if (deals.length === 0) {
         alert('No deals to export');
         return;
@@ -724,7 +745,7 @@ function exportToJSON() {
     
     const jsonContent = JSON.stringify(deals, null, 2);
     downloadFile(jsonContent, 'underwriting_deals.json', 'application/json');
-}
+};
 
 function downloadFile(content, filename, mimeType) {
     const blob = new Blob([content], { type: mimeType });
@@ -738,11 +759,11 @@ function downloadFile(content, filename, mimeType) {
     URL.revokeObjectURL(url);
 }
 
-function printReport() {
+window.printReport = function printReport() {
     window.print();
-}
+};
 
-function importData() {
+window.importData = function importData() {
     const fileInput = document.getElementById('import-file');
     const file = fileInput.files[0];
     
@@ -777,7 +798,7 @@ function importData() {
 // PROPERTY DATA API (Mock)
 // ============================================
 
-async function fetchPropertyData() {
+window.fetchPropertyData = async function fetchPropertyData() {
     const address = document.getElementById('address').value;
     
     if (!address) {
@@ -879,7 +900,7 @@ function updateClosingCosts() {
 /**
  * Update price per square foot display
  */
-function updatePricePerSqft() {
+window.updatePricePerSqft = function updatePricePerSqft() {
     const purchasePrice = parseFloat(document.getElementById('purchase-price').value) || 0;
     const sqft = parseFloat(document.getElementById('sqft').value) || 0;
     
@@ -895,18 +916,18 @@ function updatePricePerSqft() {
             displayElement.className = 'mt-1 text-sm text-gray-600';
         }
     }
-}
+};
 
 /**
  * Update loan amount based on purchase price minus down payment
  */
-function updateLoanAmount() {
+window.updateLoanAmount = function updateLoanAmount() {
     const purchasePrice = parseFloat(document.getElementById('purchase-price').value) || 0;
     const downPayment = parseFloat(document.getElementById('down-payment').value) || 0;
     
     const loanAmount = Math.max(0, purchasePrice - downPayment);
     document.getElementById('loan-amount').value = Math.round(loanAmount);
-}
+};
 
 // Initialize closing costs on page load
 document.addEventListener('DOMContentLoaded', function() {
@@ -925,7 +946,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * Handle property type change in Add Deal form
  */
-function handlePropertyTypeChange() {
+window.handlePropertyTypeChange = function handlePropertyTypeChange() {
     const propertyType = document.getElementById('property-type').value;
     const storageSections = document.getElementById('self-storage-sections');
     
@@ -934,7 +955,7 @@ function handlePropertyTypeChange() {
     } else {
         storageSections.classList.add('hidden');
     }
-}
+};
 
 // ============================================
 // SELF STORAGE DEAL FUNCTIONS (in Add Deal form)
@@ -943,7 +964,7 @@ function handlePropertyTypeChange() {
 /**
  * Update price per unit for self storage in deal form
  */
-function updateStorageDealPricePerUnit() {
+window.updateStorageDealPricePerUnit = function updateStorageDealPricePerUnit() {
     const purchasePrice = parseFloat(document.getElementById('purchase-price').value) || 0;
     const numUnits = parseFloat(document.getElementById('storage-num-units-deal').value) || 0;
     
@@ -954,7 +975,7 @@ function updateStorageDealPricePerUnit() {
 /**
  * Update income calculations for self storage in deal form
  */
-function updateStorageDealIncome() {
+window.updateStorageDealIncome = function updateStorageDealIncome() {
     const grossRents = parseFloat(document.getElementById('storage-gross-rents-deal').value) || 0;
     const vacancy = parseFloat(document.getElementById('storage-vacancy-deal').value) || 0;
     const concessions = parseFloat(document.getElementById('storage-concessions-deal').value) || 0;
@@ -1134,7 +1155,7 @@ function updateStorageExpenses() {
 /**
  * Calculate and display storage metrics
  */
-function calculateStorageMetrics() {
+window.calculateStorageMetrics = function calculateStorageMetrics() {
     // Get all values
     const totalOperatingIncome = parseFloat(document.getElementById('storage-total-operating-income').value) || 0;
     const totalExpenses = parseFloat(document.getElementById('storage-total-expenses').value) || 0;
@@ -1166,23 +1187,5 @@ function calculateStorageMetrics() {
     document.getElementById('storage-results-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// ============================================
-// EXPOSE FUNCTIONS TO GLOBAL SCOPE FOR ONCLICK HANDLERS
-// ============================================
-window.showView = showView;
-window.handleLogout = handleLogout;
-window.fetchPropertyData = fetchPropertyData;
-window.calculateMetrics = calculateMetrics;
-window.calculateStorageMetrics = calculateStorageMetrics;
-window.exportToCSV = exportToCSV;
-window.exportToJSON = exportToJSON;
-window.printReport = printReport;
-window.importData = importData;
-window.handlePropertyTypeChange = handlePropertyTypeChange;
-window.updatePricePerSqft = updatePricePerSqft;
-window.updateLoanAmount = updateLoanAmount;
-window.updateStorageDealPricePerUnit = updateStorageDealPricePerUnit;
-window.updateStorageDealIncome = updateStorageDealIncome;
-window.editDeal = editDeal;
-window.deleteDeal = deleteDeal;
-window.viewDeal = viewDeal;
+// Note: All functions are now assigned directly to window scope throughout the file
+// This ensures they're immediately available for inline onclick handlers
