@@ -58,34 +58,55 @@ function handleLogout() {
 // ============================================
 
 function showView(viewName) {
-    // Hide all views
-    document.querySelectorAll('.view-container').forEach(view => {
-        view.classList.add('hidden');
-    });
+    console.log('showView called with:', viewName);
     
-    // Show selected view
-    document.getElementById(`${viewName}-view`).classList.remove('hidden');
-    
-    // Update navigation - find the active link by matching the viewName
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('border-white', 'text-white');
-        link.classList.add('border-transparent', 'text-gray-300');
+    try {
+        // Hide all views
+        const allViews = document.querySelectorAll('.view-container');
+        console.log('Found views:', allViews.length);
+        allViews.forEach(view => {
+            view.classList.add('hidden');
+        });
         
-        // Check if this link's onclick matches the current view
-        const onclick = link.getAttribute('onclick');
-        if (onclick && onclick.includes(`'${viewName}'`)) {
-            link.classList.remove('border-transparent', 'text-gray-300');
-            link.classList.add('border-white', 'text-white');
+        // Show selected view
+        const targetView = document.getElementById(`${viewName}-view`);
+        console.log('Target view element:', targetView);
+        
+        if (!targetView) {
+            console.error(`View not found: ${viewName}-view`);
+            return;
         }
-    });
-    
-    // Refresh view-specific data
-    if (viewName === 'dashboard') {
-        renderDashboard();
-    } else if (viewName === 'analytics') {
-        renderAnalytics();
+        
+        targetView.classList.remove('hidden');
+        
+        // Update navigation - find the active link by matching the viewName
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('border-white', 'text-white');
+            link.classList.add('border-transparent', 'text-gray-300');
+            
+            // Check if this link's onclick matches the current view
+            const onclick = link.getAttribute('onclick');
+            if (onclick && onclick.includes(`'${viewName}'`)) {
+                link.classList.remove('border-transparent', 'text-gray-300');
+                link.classList.add('border-white', 'text-white');
+            }
+        });
+        
+        // Refresh view-specific data
+        if (viewName === 'dashboard') {
+            renderDashboard();
+        } else if (viewName === 'analytics') {
+            renderAnalytics();
+        }
+        
+        console.log('View switched successfully to:', viewName);
+    } catch (error) {
+        console.error('Error in showView:', error);
     }
 }
+
+// Make sure critical functions are accessible globally from inline onclick handlers
+window.showView = showView;
 
 // ============================================
 // LOCAL STORAGE MANAGEMENT (User-specific)
@@ -1144,3 +1165,24 @@ function calculateStorageMetrics() {
     // Scroll to results
     document.getElementById('storage-results-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
+
+// ============================================
+// EXPOSE FUNCTIONS TO GLOBAL SCOPE FOR ONCLICK HANDLERS
+// ============================================
+window.showView = showView;
+window.handleLogout = handleLogout;
+window.fetchPropertyData = fetchPropertyData;
+window.calculateMetrics = calculateMetrics;
+window.calculateStorageMetrics = calculateStorageMetrics;
+window.exportToCSV = exportToCSV;
+window.exportToJSON = exportToJSON;
+window.printReport = printReport;
+window.importData = importData;
+window.handlePropertyTypeChange = handlePropertyTypeChange;
+window.updatePricePerSqft = updatePricePerSqft;
+window.updateLoanAmount = updateLoanAmount;
+window.updateStorageDealPricePerUnit = updateStorageDealPricePerUnit;
+window.updateStorageDealIncome = updateStorageDealIncome;
+window.editDeal = editDeal;
+window.deleteDeal = deleteDeal;
+window.viewDeal = viewDeal;
