@@ -192,7 +192,7 @@
             }));
             
             // Redirect to dashboard
-            window.location.href = 'index.html';
+            window.location.href = 'dashboard.html';
         }
 
         function handleRegister(event) {
@@ -240,14 +240,14 @@
             
             // Show success and redirect
             alert('Account created successfully!');
-            window.location.href = 'index.html';
+            window.location.href = 'dashboard.html';
         }
 
         // Check if already logged in
         const currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
             // User already logged in, redirect to dashboard
-            window.location.href = 'index.html';
+            window.location.href = 'dashboard.html';
         }
     </script>
 </body>
