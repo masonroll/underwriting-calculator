@@ -66,14 +66,18 @@ function showView(viewName) {
     // Show selected view
     document.getElementById(`${viewName}-view`).classList.remove('hidden');
     
-    // Update navigation
+    // Update navigation - find the active link by matching the viewName
     document.querySelectorAll('.nav-link').forEach(link => {
         link.classList.remove('border-white', 'text-white');
         link.classList.add('border-transparent', 'text-gray-300');
+        
+        // Check if this link's onclick matches the current view
+        const onclick = link.getAttribute('onclick');
+        if (onclick && onclick.includes(`'${viewName}'`)) {
+            link.classList.remove('border-transparent', 'text-gray-300');
+            link.classList.add('border-white', 'text-white');
+        }
     });
-    
-    event.target.classList.remove('border-transparent', 'text-gray-300');
-    event.target.classList.add('border-white', 'text-white');
     
     // Refresh view-specific data
     if (viewName === 'dashboard') {
